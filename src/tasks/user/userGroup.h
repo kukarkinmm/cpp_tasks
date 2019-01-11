@@ -10,12 +10,42 @@
 #include "user.h"
 
 class UserGroup {
-    std::string groupName;
     unsigned int id;
+    std::string groupName;
     std::unordered_set<User> users;
 
 public:
     explicit UserGroup(unsigned int id);
+    UserGroup(unsigned int id, std::string name, std::unordered_set<User> users_);
+
+    bool operator==(const UserGroup &userGroup) const;
+
+    unsigned int getId() const;
+    std::string getName() const;
+    std::unordered_set<User> getUsers() const;
+};
+
+namespace std {
+    template <>
+    class hash<UserGroup> {
+    public:
+        size_t operator()(const UserGroup &userGroup) const;
+    };
+}
+
+template <class T>
+class BinarySize;
+
+template <>
+class BinarySize<User> {
+public:
+    static size_t size(const User &u);
+};
+
+template <>
+class BinarySize<UserGroup> {
+public:
+    static size_t size(const UserGroup &userGroup);
 };
 
 #endif //CP_TASKS_USERGROUP_H
