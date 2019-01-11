@@ -10,21 +10,20 @@
 #include <algorithm>
 #include <iostream>
 
-#include "MaskedArray2D.h"
 
 template <typename A>
 class MaskedArray2D;
 
 template <class T>
 class Array2D {
-    std::vector<std::vector<T>> arr;
+    T** arr;
     size_t n, m;
 
     Array2D pairWiseTransform(const Array2D &a, const Array2D &b, std::function<T(T, T)> f) {
         Array2D result(a);
         for(size_t i = 0; i < n; ++i)
             for(size_t j = 0; j < m; ++j)
-                result[i][j] = f(a[i][j], b[i][j]);
+                result(i, j) = f(a(i, j), b(i, j));
         return result;
     }
 
@@ -32,27 +31,30 @@ class Array2D {
         Array2D<bool> result(a.rows(), a.columns());
         for(size_t i = 0; i < n; ++i)
             for(size_t j = 0; j < m; ++j)
-                result[i][j] = f(a[i][j], b[i][j]);
+                result(i, j) = f(a(i, j), b(i, j));
         return result;
     }
 
 public:
     Array2D(size_t n, size_t m) : n(n), m(m) {
-        for(size_t i = 0; i < n; ++i) {
-            std::vector<T> t;
-            for (size_t j = 0; j < m; ++j)
-                t.push_back(T());
-            arr.push_back(t);
+        arr = new T*[n];
+        for (size_t i = 0; i < n; ++i) {
+            arr[i] = new T[m];
+        }
+    }
+    Array2D(size_t n, size_t m, const T &val) : Array2D(n, m) {
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < m; ++j) {
+                arr[i][j] = val;
+            }
         }
     }
 
-    Array2D(size_t n, size_t m, const T &val) : n(n), m(m) {
-        for(size_t i = 0; i < n; ++i) {
-            std::vector<T> t;
-            for (size_t j = 0; j < m; ++j)
-                t.push_back(val);
-            arr.push_back(t);
+    ~Array2D() {
+        for (size_t i = 0; i < n; ++i) {
+            delete[] arr[i];
         }
+        delete[] arr;
     }
 
     Array2D(const Array2D &other) : n(other.n), m(other.m), arr(other.arr) {}
@@ -70,14 +72,6 @@ public:
 
     size_t columns() const {
         return m;
-    }
-
-    std::vector<T> operator[](size_t index) const {
-        return arr[index];
-    }
-
-    std::vector<T> &operator[](size_t index) {
-        return arr[index];
     }
 
     Array2D operator+(const Array2D &b) {
@@ -120,7 +114,7 @@ public:
         return pairWiseLogic(*this, b, std::less_equal<T>());
     }
 
-    T operator()(size_t i, size_t j) const {
+    const T& operator()(size_t i, size_t j) const {
         return arr[i][j];
     }
 
@@ -128,7 +122,7 @@ public:
         return arr[i][j];
     }
 
-    MaskedArray2D operator()(const Array2D<bool> &mask) {
+    MaskedArray2D<T> operator()(const Array2D<bool> &mask) {
         return MaskedArray2D<T>(*this, mask);
     }
 };
@@ -137,9 +131,10 @@ template <class T>
 std::ostream &operator<<(std::ostream &stream, const Array2D<T> &array) {
     for(size_t i = 0; i < array.rows(); ++i) {
         for(size_t j = 0; j < array.columns(); ++j)
-            stream << array[i][j] << " ";
+            stream << array(i, j) << " ";
         stream << "\n";
     }
+    return stream;
 }
 
 #endif //CP_TASKS_ARRAY2D_H
