@@ -3,9 +3,10 @@
 //
 
 #include <gtest/gtest.h>
-#include <tasks/message/message.h>
 #include <string>
 #include <sstream>
+
+#include "tasks/message/message.h"
 
 TEST(MessageTest, format) {
 std::stringstream test_str;
