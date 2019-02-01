@@ -34,6 +34,11 @@ public:
             v[i] = val;
     }
 
+    Vector(std::initializer_list<T> &il) : size_(il.size()), capacity_(il.size() * 2) {
+        for (size_t i = 0; i < il.size(); ++i)
+            v[i] = il[i];
+    }
+
     Vector(const Vector &other) : size_(other.size_), capacity_(other.capacity_), v(new T[other.capacity_]) {
         for (size_t i = 0; i < size_; ++i)
             v[i] = other.v[i];
