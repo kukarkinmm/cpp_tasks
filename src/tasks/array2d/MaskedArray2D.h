@@ -17,12 +17,11 @@ class MaskedArray2D {
 
 public:
     MaskedArray2D(Array2D<T> &arr, const Array2D<bool> &mask) : array(arr), mask(mask) {}
-    Array2D<T> operator=(T val) {
+    void operator=(const T &val) {
         for(size_t i = 0; i < array.rows(); ++i)
             for(size_t j = 0; j < array.columns(); ++j)
                 if (mask(i, j))
                     array(i, j) = val;
-        return array;
     }
 };
 

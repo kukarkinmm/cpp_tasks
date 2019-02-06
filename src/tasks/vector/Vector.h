@@ -9,7 +9,7 @@
 
 template <class T>
 class Vector {
-    typedef T* iterator;
+    using iterator = T*;
     T *v;
     size_t size_, capacity_;
 
@@ -23,7 +23,7 @@ class Vector {
     }
 
 public:
-    Vector() : size_(0) , capacity_(10), v(nullptr) {};
+    Vector() : size_(0) , capacity_(10), v(new T[10]) {};
     explicit Vector(size_t n) : size_(n), capacity_(2 * n), v(new T[2 * n]) {
         for (size_t i = 0; i < n; ++i)
             v[i] = T();
@@ -60,7 +60,7 @@ public:
         return *this;
     }
 
-    Vector &operator=(Vector &&other) {
+    Vector &operator=(Vector &&other) noexcept {
         delete[] v;
         v = nullptr;
         size_ = 0;
@@ -69,7 +69,7 @@ public:
         return *this;
     }
 
-    T operator[](size_t index) const {
+    const T& operator[](size_t index) const {
         return *(v + index);
     }
 
@@ -99,8 +99,14 @@ public:
     }
 
     void push_back(T &&val) {
-        if (size_ >= capacity_)
-            reallocate();
+        if (size_ >= capacity_) {
+            capacity_ *= 2;
+            T *temp = new T[capacity_];
+            std::swap(temp, v);
+            for (size_t i = 0; i < size_; ++i)
+                v[i] = std::move(temp[i]);
+            delete[] temp;
+        }
         *(v + size_) = std::move(val);
         size_++;
     }

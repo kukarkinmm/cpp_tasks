@@ -20,7 +20,7 @@ public:
     explicit iterator(ostream_type& s) : out_stream(&s), delim(0) {}
     iterator(ostream_type& s, const CharT* delimiter) : out_stream(&s), delim(delimiter) {}
     iterator(const iterator<T, CharT, Traits>& x) : out_stream(x.out_stream), delim(x.delim) {}
-    ~iterator() {}
+    ~iterator() = default;
 
     iterator<T, CharT, Traits>& operator=(const T& value) {
         *out_stream << value;
@@ -28,9 +28,10 @@ public:
             *out_stream << delim;
         return *this;
     }
-    iterator<T, CharT, Traits>& operator*() {return *this;}
-    iterator<T, CharT, Traits>& operator++() {return *this;}
-    iterator<T, CharT, Traits>& operator++(int) {return *this;}
+
+    iterator<T, CharT, Traits>& operator*() { return *this; }
+    iterator<T, CharT, Traits>& operator++() { return *this; }
+    const iterator<T, CharT, Traits> operator++(int) { return *this; }
 };
 
 #endif //CP_TASKS_ITERATOR_H
