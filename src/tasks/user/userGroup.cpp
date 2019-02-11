@@ -30,10 +30,6 @@ size_t std::hash<UserGroup>::operator()(const UserGroup &userGroup) const {
            ^ (hash<unsigned int>()(userGroup.getId()) << 1);
 }
 
-size_t BinarySize<User>::size(const User &u) {
-    return sizeof(u.getId()) + u.getName().size() + u.getLastName().size();
-}
-
 size_t BinarySize<UserGroup>::size(const UserGroup &userGroup) {
     size_t sizeOfUsers = 0;
     for(User user : userGroup.getUsers())

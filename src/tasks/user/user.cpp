@@ -29,3 +29,7 @@ size_t std::hash<User>::operator()(const User &user) const {
              ^ (hash<string>()(user.getLastName()) << 1)) >> 1)
            ^ (hash<unsigned int>()(user.getId()) << 1);
 }
+
+size_t BinarySize<User>::size(const User &u) {
+    return sizeof(u.getId()) + u.getName().size() + u.getLastName().size();
+}

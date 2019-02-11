@@ -15,6 +15,7 @@ class LineNumberBuffer : public std::streambuf {
 
 public:
     explicit LineNumberBuffer(std::streambuf *buf);
+    ~LineNumberBuffer() = default;
 
 protected:
     int overflow(int c) override;

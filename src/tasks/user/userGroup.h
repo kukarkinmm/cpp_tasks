@@ -33,15 +33,6 @@ namespace std {
     };
 }
 
-template <class T>
-class BinarySize;
-
-template <>
-class BinarySize<User> {
-public:
-    static size_t size(const User &u);
-};
-
 template <>
 class BinarySize<UserGroup> {
 public:

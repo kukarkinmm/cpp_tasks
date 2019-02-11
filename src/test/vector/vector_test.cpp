@@ -4,12 +4,7 @@
 
 #include <gtest/gtest.h>
 
-#include "vector/Vector.h"
-
-template <class T>
-class VectorTest : ::testing::Test {
-
-};
+#include "tasks/vector/Vector.h"
 
 TEST(Vector, defaultConstructor) {
     Vector<int> v;
@@ -102,14 +97,14 @@ TEST(Vector, pop_back) {
 }
 
 TEST(Vector, eraseOne) {
-    Vetor<int> v({0, 1, 2, 3});
+    Vector<int> v({0, 1, 2, 3});
     v.erase(v.begin() + 1);
 
     EXPECT_EQ(v.size(), 3);
 }
 
 TEST(Vector, eraseMore) {
-    Vetor<int> v({0, 1, 2, 3, 4});
+    Vector<int> v({0, 1, 2, 3, 4});
     v.erase(v.begin() + 1, v.begin() + 3);
 
     EXPECT_EQ(v.size(), 2);

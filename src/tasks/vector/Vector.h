@@ -34,9 +34,9 @@ public:
             v[i] = val;
     }
 
-    Vector(std::initializer_list<T> &il) : size_(il.size()), capacity_(il.size() * 2) {
+    Vector(std::initializer_list<T> il) : size_(il.size()), capacity_(il.size() * 2), v(new T[il.size() * 2]) {
         for (size_t i = 0; i < il.size(); ++i)
-            v[i] = il[i];
+            v[i] = *(il.begin() + i);
     }
 
     Vector(const Vector &other) : size_(other.size_), capacity_(other.capacity_), v(new T[other.capacity_]) {
@@ -49,14 +49,12 @@ public:
     }
 
     Vector &operator=(const Vector &other) {
-        if (this != other) {
-            delete[] v;
-            size_ = other.size_;
-            capacity_ = other.capacity_;
-            v = new T[capacity_];
-            for (size_t i = 0; i < size_; ++i)
-                v[i] = other.v[i];
-        }
+        delete[] v;
+        size_ = other.size_;
+        capacity_ = other.capacity_;
+        v = new T[capacity_];
+        for (size_t i = 0; i < size_; ++i)
+            v[i] = other.v[i];
         return *this;
     }
 
