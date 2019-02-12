@@ -19,7 +19,7 @@ class Array2D {
     T** arr;
     size_t n, m;
 
-    Array2D pairWiseTransform(const Array2D &a, const Array2D &b, std::function<T(T, T)> f) {
+    Array2D pairWiseTransform(const Array2D &a, const Array2D &b, std::function<T(T, T)> f) const {
         Array2D result(a);
         for(size_t i = 0; i < n; ++i)
             for(size_t j = 0; j < m; ++j)
@@ -57,7 +57,13 @@ public:
         delete[] arr;
     }
 
-    Array2D(const Array2D &other) : n(other.n), m(other.m), arr(other.arr) {}
+    Array2D(const Array2D &other) : Array2D(other.n, other.m) {
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < m; ++j) {
+                arr[i][j] = other.arr[i][j];
+            }
+        }
+    }
     Array2D(Array2D &&other) = default;
 
     Array2D &operator=(const Array2D &other) {
@@ -112,6 +118,16 @@ public:
 
     Array2D<bool> operator<=(const Array2D &b) {
         return pairWiseLogic(*this, b, std::less_equal<T>());
+    }
+
+    bool equal_to(const Array2D &r) {
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < m; ++j) {
+                if (arr[i][j] != r.arr[i][j])
+                    return false;
+            }
+        }
+        return true;
     }
 
     const T& operator()(size_t i, size_t j) const {

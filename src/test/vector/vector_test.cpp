@@ -53,7 +53,7 @@ TEST(Vector, equalCopy) {
     EXPECT_EQ(origin.size(), 6);
     EXPECT_EQ(copy.size(), 5);
     EXPECT_EQ(origin[0], 2);
-    EXPECT_EQ(copy[5], 9);
+    EXPECT_EQ(copy[4], 2);
 }
 
 TEST(Vector, equalMove) {
@@ -107,5 +107,5 @@ TEST(Vector, eraseMore) {
     Vector<int> v({0, 1, 2, 3, 4});
     v.erase(v.begin() + 1, v.begin() + 3);
 
-    EXPECT_EQ(v.size(), 2);
+    EXPECT_EQ(v.size(), 3);
 }
