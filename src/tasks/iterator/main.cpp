@@ -4,14 +4,13 @@
 
 #include <iostream>
 #include <numeric>
-#include <sstream>
+#include <vector>
 
 #include "iterator.h"
 
 int main() {
-    std::istringstream str("0.1 0.2 0.3 0.4");
-    std::partial_sum(std::istream_iterator<double>(str),
-                     std::istream_iterator<double>(),
-                     std::ostream_iterator<double>(std::cout, " "));
+    std::vector<double> v({1, 2, 3});
+    auto i = iterator<double>(std::cout, " ");
+    std::partial_sum(v.begin(), v.end(), i);
     return 0;
 }
