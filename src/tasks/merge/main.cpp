@@ -22,7 +22,7 @@ int main() {
         std::vector<int> v;
         v.reserve(n);
 
-        for(int i = 0; i < n; ++i) {
+        for(size_t i = 0; i < n; ++i) {
             v.push_back(i);
         }
         std::shuffle(v.begin(), v.end(), std::random_device());
@@ -41,7 +41,7 @@ int main() {
         n *= 10;
     }
 
-    std::ofstream out("../out.txt");
+    std::ofstream out("../../../out.txt");
     for (size_t i = 0; i < 7; ++i) {
         out << merge_results[i].first << " " << merge_results[i].second << " " << threading_results[i].second << "\n";
     }
