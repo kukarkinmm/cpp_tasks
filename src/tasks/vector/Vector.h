@@ -10,8 +10,8 @@
 template <class T>
 class Vector {
     using iterator = T*;
-    T *v;
     size_t size_, capacity_;
+    T *v;
 
     void reallocate() {
         capacity_ *= 2;
@@ -44,7 +44,7 @@ public:
             v[i] = other.v[i];
     }
 
-    Vector(Vector &&other) noexcept : v(nullptr), size_(0), capacity_(0) {
+    Vector(Vector &&other) noexcept : size_(0), capacity_(0), v(nullptr) {
         this->swap(other);
     }
 

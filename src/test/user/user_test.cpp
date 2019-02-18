@@ -21,7 +21,7 @@ TEST(User, binarySize) {
 TEST(UserGroup, eq) {
     UserGroup group(1);
     UserGroup copy(group);
-    EXPECT_EQ(group, copy);
+    EXPECT_TRUE(group == copy);
 }
 
 TEST(UserGroup, binarySize) {

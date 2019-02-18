@@ -7,9 +7,6 @@
 
 #include "server.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wmissing-noreturn"
-
 void EchoServer::nonblock(int fd) {
     int flags;
 #if defined(O_NONBLOCK)
@@ -49,7 +46,7 @@ EchoServer::EchoServer(uint16_t port, int max_events) : max_events(max_events),
     std::cout << "Server has started\n" ;
     while(true) {
         struct epoll_event Events[max_events];
-        int N = epoll_wait(epoll, Events, max_events, -1);
+        size_t N = epoll_wait(epoll, Events, max_events, -1);
         for (size_t i = 0; i < N; ++i) {
             if (Events[i].data.fd == master) {
                 int slave = accept(master, 0, 0);

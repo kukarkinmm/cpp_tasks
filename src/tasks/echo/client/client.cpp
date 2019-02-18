@@ -13,9 +13,6 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wmissing-noreturn"
-
 Client::Client(std::string address, int port) : client_socket (socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)){
     struct sockaddr_in sockAddr;
     sockAddr.sin_family = AF_INET;

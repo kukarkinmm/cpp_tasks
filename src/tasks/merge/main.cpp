@@ -41,11 +41,12 @@ int main() {
         n *= 10;
     }
 
-    std::ofstream out("../../../out.txt");
+    std::ofstream out("out.txt");
     for (size_t i = 0; i < 7; ++i) {
         out << merge_results[i].first << " " << merge_results[i].second << " " << threading_results[i].second << "\n";
     }
     out.close();
+    system("python3 plotting.py out.txt");
     return 0;
 }
 
