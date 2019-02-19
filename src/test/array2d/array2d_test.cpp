@@ -7,6 +7,14 @@
 #include "tasks/array2d/Array2D.h"
 #include "tasks/array2d/MaskedArray2D.h"
 
+class bool_array2d_param {
+public:
+    Array2D<bool> test;
+    Array2D<bool> result;
+};
+
+class bool_array2d_test : public  ::testing::TestWithParam<bool_array2d_param> {};
+
 TEST(Array2D, add) {
     Array2D<int> a(2, 3, 5);
     Array2D<int> b(2, 3, 6);
@@ -41,46 +49,24 @@ TEST(Array2D, equal_to) {
     EXPECT_TRUE(a.equal_to(b));
 }
 
-TEST(Array2D, equal) {
-    Array2D<int> a(2, 3, 5);
-    Array2D<int> b(2, 3, 6);
-    Array2D<bool> res(2, 3, false);
-    EXPECT_TRUE((a == b).equal_to(res));
-}
+INSTANTIATE_TEST_CASE_P(_, bool_array2d_test, ::testing::Values(
+        bool_array2d_param{(Array2D<int>(2, 3, 5) == Array2D<int>(2, 3, 5)), Array2D<bool>(2, 3, true)},
+        bool_array2d_param{(Array2D<int>(2, 3, 5) == Array2D<int>(2, 3, 6)), Array2D<bool>(2, 3, false)},
+        bool_array2d_param{(Array2D<int>(2, 3, 5) != Array2D<int>(2, 3, 0)), Array2D<bool>(2, 3, true)},
+        bool_array2d_param{(Array2D<int>(2, 3, 5) != Array2D<int>(2, 3, 5)), Array2D<bool>(2, 3, false)},
+        bool_array2d_param{(Array2D<int>(2, 3, 5) < Array2D<int>(2, 3, 6)), Array2D<bool>(2, 3, true)},
+        bool_array2d_param{(Array2D<int>(2, 3, 5) < Array2D<int>(2, 3, 5)), Array2D<bool>(2, 3, false)},
+        bool_array2d_param{(Array2D<int>(2, 3, 5) <= Array2D<int>(2, 3, 5)), Array2D<bool>(2, 3, true)},
+        bool_array2d_param{(Array2D<int>(2, 3, 7) <= Array2D<int>(2, 3, 6)), Array2D<bool>(2, 3, false)},
+        bool_array2d_param{(Array2D<int>(2, 3, 5) > Array2D<int>(2, 3, 5)), Array2D<bool>(2, 3, false)},
+        bool_array2d_param{(Array2D<int>(2, 3, 5) > Array2D<int>(2, 3, -1)), Array2D<bool>(2, 3, true)},
+        bool_array2d_param{(Array2D<int>(2, 3, 5) >= Array2D<int>(2, 3, 5)), Array2D<bool>(2, 3, true)},
+        bool_array2d_param{(Array2D<int>(2, 3, 5) >= Array2D<int>(2, 3, 6)), Array2D<bool>(2, 3, false)}
+));
 
-TEST(Array2D, not_equal) {
-    Array2D<int> a(2, 3, 5);
-    Array2D<int> b(2, 3, 6);
-    Array2D<bool> res(2, 3, true);
-    EXPECT_TRUE((a != b).equal_to(res));
-}
-
-TEST(Array2D, less) {
-    Array2D<int> a(2, 3, 5);
-    Array2D<int> b(2, 3, 6);
-    Array2D<bool> res(2, 3, true);
-    EXPECT_TRUE((a < b).equal_to(res));
-}
-
-TEST(Array2D, less_equal) {
-    Array2D<int> a(2, 3, 6);
-    Array2D<int> b(2, 3, 6);
-    Array2D<bool> res(2, 3, true);
-    EXPECT_TRUE((a <= b).equal_to(res));
-}
-
-TEST(Array2D, greater) {
-    Array2D<int> a(2, 3, 5);
-    Array2D<int> b(2, 3, 6);
-    Array2D<bool> res(2, 3, false);
-    EXPECT_TRUE((a > b).equal_to(res));
-}
-
-TEST(Array2D, greater_equal) {
-    Array2D<int> a(2, 3, 6);
-    Array2D<int> b(2, 3, 6);
-    Array2D<bool> res(2, 3, true);
-    EXPECT_TRUE((a >= b).equal_to(res));
+TEST_P(bool_array2d_test, _) {
+    const auto &p = GetParam();
+    EXPECT_TRUE(p.test.equal_to(p.result));
 }
 
 TEST(Mask, braces) {

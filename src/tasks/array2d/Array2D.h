@@ -120,7 +120,7 @@ public:
         return pairWiseLogic(*this, b, std::less_equal<T>());
     }
 
-    bool equal_to(const Array2D &r) {
+    bool equal_to(const Array2D &r) const {
         for (size_t i = 0; i < n; ++i) {
             for (size_t j = 0; j < m; ++j) {
                 if (arr[i][j] != r.arr[i][j])
