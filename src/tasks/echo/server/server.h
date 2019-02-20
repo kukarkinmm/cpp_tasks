@@ -25,7 +25,7 @@ class EchoServer {
 
 public:
     EchoServer(uint16_t port, int max_events);
-    [[noreturn]] void start_loop();
+    void start_loop();
 
     ~EchoServer();
 };

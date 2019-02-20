@@ -15,7 +15,7 @@ class Client {
 
 public:
     Client(std::string address, int port);
-    [[noreturn]] void start_loop();
+    void start_loop();
     virtual ~Client();
 };
 

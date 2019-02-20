@@ -1,5 +1,5 @@
 mkdir build
-meson . build
+meson . build -Db_coverage=true
 cd build
 ninja
 
